@@ -67,11 +67,11 @@ func main() {
 	// routing
 
 	// routing for API v1
-	routers.AddRoutersForBuildApi(v1) /* "/build" api */
-	routers.AddRoutersForRedirect(v1) /* "/redirect" api */
+	routers.AddRoutersForBuildV1Api(v1, BuildDocker) /* "/build" api */
+	routers.AddRoutersForRedirect(v1)                /* "/redirect" api */
 
-	// // routing for API v2
-	routers.AddRoutersForBuildApi(v2) /* "/build" api */
+	// routing for API v2
+	routers.AddRoutersForBuildV2Api(v2, BuildKubernetes) /* "/build" api */
 
 	// define redirect rules
 	routers.DefineRedirectRules(app)
