@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 
@@ -12,8 +11,6 @@ import (
 	"github.com/gofiber/template/html"
 )
 
-var port = flag.Int("p", 8080, "서버가 Listen할 port 번호를 입력해주세요.")
-
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
@@ -21,7 +18,6 @@ func init() {
 func main() {
 	// Initialize standard Go html template engine
 	engine := html.New("./public/views", ".html")
-	addr := fmt.Sprintf(":%d", *port)
 	// use the fiber view engine for rendering engine
 	app := fiber.New(fiber.Config{
 		Views:        engine,
@@ -67,17 +63,17 @@ func main() {
 	// routing
 
 	// routing for API v1
-	routers.AddRoutersForBuildV1Api(v1, BuildDocker) /* "/build" api */
-	routers.AddRoutersForRedirect(v1)                /* "/redirect" api */
+	AddRoutersForBuildV1Api(v1)       /* "/build" api */
+	routers.AddRoutersForRedirect(v1) /* "/redirect" api */
 
 	// routing for API v2
-	routers.AddRoutersForBuildV2Api(v2, BuildKubernetes) /* "/build" api */
+	AddRoutersForBuildV2Api(v2) /* "/build" api */
 
 	// define redirect rules
 	routers.DefineRedirectRules(app)
 	//-------------------------------------------------
-	log.Printf("Server is listening %d", *port)
-	log.Fatal(app.Listen(addr))
+	log.Printf("Server is listening %s", serverPort)
+	log.Fatal(app.Listen(serverPort))
 }
 
 func HttpServerErrorHandler(ctx *fiber.Ctx, err error) error {
