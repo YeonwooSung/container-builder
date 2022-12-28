@@ -10,12 +10,6 @@ import (
 func generate_build_spec() *BuildSpec {
 	buildSpec := BuildSpec{}
 
-	//TODO
-	// if err := json.Unmarshal(body, &buildSpec); err != nil {
-	// 	log.Printf("json unmarshal has failed: %s\n", err)
-	// 	return nil
-	// }
-
 	if buildSpec.BuildArgStr != "" {
 		if err := json.Unmarshal([]byte(buildSpec.BuildArgStr), &buildSpec.BuildArg); err != nil {
 			log.Printf("docker argument unmarshal has failed : %s\n", err)
